@@ -10,8 +10,10 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
-  firstName: String,
-  lastName: String,
+  displayName: {
+    type: String,
+    required: true
+  },
   photo: String,
   shed: {
     type: Schema.Types.ObjectId,
