@@ -8,9 +8,11 @@ module.exports = passport => {
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
   }, async (accessToken, refreshToken, profile, done) => {
+    console.log('profile:', profile)
     try {
       const foundUser = await User.findOne({ googleId: profile.id})
       if (foundUser) {
+        console.log('User already exists');
         return done(null, foundUser);
       } else {
         const newUser = await User.create({
