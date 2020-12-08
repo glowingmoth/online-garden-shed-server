@@ -20,7 +20,7 @@ module.exports = {
     console.log('req.value.params:', req.value.params);
     const foundShed = await Shed.findById(req.value.params.shedId);
     if (foundShed) {
-      const foundPlantRecord = await PlantRecord.findById(req.value.params.plantRecordId);
+      const foundPlantRecord = await PlantRecord.findById(req.value.params.plantRecordId).populate('plantLogs').lean();
       if (foundPlantRecord) {
         res.status(200).send(foundPlantRecord);
       } else {
@@ -36,6 +36,7 @@ module.exports = {
     if (foundShed) {
       const foundPlantRecord = await PlantRecord.findById(req.value.params.plantRecordId);
       if (foundPlantRecord) {
+        const foundLog = await PlantLog.findById(req.value.params.logId);
         res.status(200).send(foundPlantRecord);
       } else {
         res.status(400).send({ msg: 'Plant Record ID not found'})
