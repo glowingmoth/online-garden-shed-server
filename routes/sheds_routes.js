@@ -11,12 +11,17 @@ router.route('/:shedId')
   .get(validateParam(schemas.idSchema, 'shedId'), ShedsController.showShed)
   .post(validateParam(schemas.idSchema, 'shedId'),
     validateBody(schemas.createPlantRecordSchema),
-    ShedsController.createPlantRecord);
+    ShedsController.createPlantRecord
+  );
 
 router.route('/:shedId/:plantRecordId')
   .get(validateParam(schemas.idSchema, 'shedId'),
     validateParam(schemas.idSchema, 'plantRecordId'),
     ShedsController.showPlantRecord
+  ).post(validateParam(schemas.idSchema, 'shedId'),
+    validateParam(schemas.idSchema, 'plantRecordId'),
+    validateBody(schemas.createPlantLogSchema),
+    ShedsController.createPlantLog
   );
 
 router.route('/:shedId/:plantRecordId/:logId')
