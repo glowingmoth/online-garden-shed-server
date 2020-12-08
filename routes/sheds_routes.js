@@ -17,6 +17,13 @@ router.route('/:shedId/:plantRecordId')
   .get(validateParam(schemas.idSchema, 'shedId'),
     validateParam(schemas.idSchema, 'plantRecordId'),
     ShedsController.showPlantRecord
-  )
+  );
+
+router.route('/:shedId/:plantRecordId/:logId')
+  .get(validateParam(schemas.idSchema, 'shedId'),
+    validateParam(schemas.idSchema, 'plantRecordId'),
+    validateParam(schemas.idSchema, 'logId'),
+    ShedsController.showLog
+  );
 
 module.exports = router;
