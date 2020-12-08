@@ -23,7 +23,7 @@ module.exports = {
   },
   validateBody: (schema) => {
     return (req, res, next) => {
-      const result = Joi.validate(req.body, schema);
+      const result = schema.validate(req.body);
       if (result.error) {
         return res.status(400).send(result.error);
       }
@@ -39,12 +39,15 @@ module.exports = {
       param: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required()
     }),
     createPlantRecordSchema: Joi.object().keys({
-      recordNum: Joi.number().required(),
       commonName: Joi.string().max(100),
       scientificName: Joi.string().max(100),
       familyCommonName: Joi.string().max(100),
       description: Joi.string().max(1000).required(),
       recordPhoto: Joi.string().required()
+    }),
+    createPlantLogSchema: Joi.object().keys({
+      note: Joi.string(),
+      photos: Joi.array()
     })
   }
 }

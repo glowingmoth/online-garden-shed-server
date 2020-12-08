@@ -30,19 +30,9 @@ const PlantRecordSchema = new Schema({
     required: true
   },
   plantLogs: [{
-    createdAt: {
-      type: Date,
-      default: Date.now
-    },
-    photos: [{
-      photo: String,
-      note: String,
-      isMain: {
-        type: Boolean,
-        default: false
-      }
-    }]
+    type: Schema.Types.ObjectId,
+    ref: 'plant_logs'
   }]
-})
+});
 
 module.exports = mongoose.model('plant_records', PlantRecordSchema);
