@@ -29,6 +29,10 @@ const PlantRecordSchema = new Schema({
     type: String,
     required: true
   },
+  ownedShed: {
+    type: Schema.Types.ObjectId,
+    ref: 'sheds'
+  },
   plantLogs: [{
     type: Schema.Types.ObjectId,
     ref: 'plant_logs'

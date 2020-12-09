@@ -6,6 +6,10 @@ const PlantLogSchema = new Schema({
     type: Date,
     default: Date.now
   },
+  ownedPlantRecord: {
+    type: Schema.Types.ObjectId,
+    ref: 'plant_records'
+  },
   photos: [{
     photo: String,
     isMain: {

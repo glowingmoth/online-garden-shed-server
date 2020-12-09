@@ -12,10 +12,8 @@ const ShedSchema = new Schema({
     ref: 'users'
   },
   plantRecords: [{
-    plantRecord: {
-      type: Schema.Types.ObjectId,
-      ref: 'plant_records'
-    }
+    type: Schema.Types.ObjectId,
+    ref: 'plant_records'
   }]
 });
 
