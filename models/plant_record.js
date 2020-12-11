@@ -10,7 +10,7 @@ const PlantRecordSchema = new Schema({
   recordNum: {
     type: Number,
     required: true,
-    default: 0
+    default: 1
   },
   commonName: {
     type: String
@@ -34,8 +34,18 @@ const PlantRecordSchema = new Schema({
     ref: 'sheds'
   },
   plantLogs: [{
-    type: Schema.Types.ObjectId,
-    ref: 'plant_logs'
+    createdAt: {
+      type: Date,
+      default: Date.now
+    },
+    photos: [{
+      photo: String,
+      isMain: {
+        type: Boolean,
+        default: false
+      }
+    }],
+    note: String
   }]
 });
 
