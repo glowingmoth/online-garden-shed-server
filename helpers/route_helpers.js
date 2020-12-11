@@ -39,15 +39,27 @@ module.exports = {
       param: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required()
     }),
     createPlantRecordSchema: Joi.object().keys({
-      commonName: Joi.string().max(100),
-      scientificName: Joi.string().max(100),
-      familyCommonName: Joi.string().max(100),
+      commonName: Joi.string().max(100).required(),
+      scientificName: Joi.string().max(100).required(),
+      familyCommonName: Joi.string().max(100).required(),
       description: Joi.string().max(1000).required(),
       recordPhoto: Joi.string().required()
     }),
+    updatePlantRecordSchema: Joi.object().keys({
+      commonName: Joi.string().max(100),
+      scientificName: Joi.string().max(100),
+      familyCommonName: Joi.string().max(100),
+      description: Joi.string().max(1000),
+      recordPhoto: Joi.string()
+    }),
     createPlantLogSchema: Joi.object().keys({
-      note: Joi.string(),
+      note: Joi.string().max(1000),
+      photos: Joi.array().min(1).max(5)
+    }),
+    updatePlantLogSchema: Joi.object().keys({
+      note: Joi.string().max(1000),
       photos: Joi.array()
     })
+
   }
 }
