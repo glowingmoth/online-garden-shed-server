@@ -1,5 +1,5 @@
 const passport = require('passport');
-const GooglePlusTokenStrategy = require('passport-google-plus-token');
+const GooglePlusTokenStrategy = require('passport-google-token').Strategy;
 const User = require('../models/user');
 const Shed = require('../models/shed');
 
