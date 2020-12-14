@@ -8,7 +8,9 @@ module.exports = passport => {
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
   }, async (accessToken, refreshToken, profile, done) => {
-    console.log('profile:', profile)
+    console.log('accessToken:', accessToken);
+    console.log('refreshToken:', refreshToken);
+    console.log('profile:', profile);
     try {
       const foundUser = await User.findOne({ googleId: profile.id})
       if (foundUser) {
@@ -35,4 +37,13 @@ module.exports = passport => {
       done(error, false, error.message);
     }
   }));
+  passport.serializeUser((user, done) => {
+    console.log('serializeUser, user:', user);
+    done(null, user._id);
+  });
+  passport.deserializeUser((_id, done) => {
+    console.log('deserializeUser, id' + _id);
+    User.findById(_id)
+      .then(user => done(null, user));
+  });
 }

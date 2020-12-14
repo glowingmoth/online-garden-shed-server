@@ -6,7 +6,9 @@ const sendErrMsg = (res, msg) => res.status(400).send({ details: [{ message: msg
 
 module.exports = {
   index: async (req, res) => {
-    const sheds = await Shed.find();
+    const sheds = await Shed.find()
+      .populate({ path: 'plantRecords', options: { sort: { createdAt: 'desc' } } })
+      .populate('owner');
     res.status(200).send(sheds);
   },
   showShed: async (req, res) => {
