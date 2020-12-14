@@ -3,9 +3,10 @@ const router = require('express-promise-router')();
 const { validateParam, validateBody, schemas } = require('../helpers/route_helpers');
 
 const ShedsController = require('../controllers/sheds_controller');
+const { ensureAuthenticated } = require('../helpers/auth');
 
 router.route('/')
-  .get(ShedsController.index);
+  .get(ensureAuthenticated, ShedsController.index);
 
 router.route('/:shedId')
   .get(validateParam(schemas.idSchema, 'shedId'),

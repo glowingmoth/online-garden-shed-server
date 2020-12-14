@@ -1,4 +1,5 @@
 const JWT = require('jsonwebtoken');
+const User = require('../models/user');
 
 const signToken = user => {
   return JWT.sign({
@@ -10,12 +11,19 @@ const signToken = user => {
 }
 
 module.exports = {
-  signIn: async (req, res, next) => {
+  signIn: async (req, res) => {
     console.log('signIn called');
     const token = signToken(req.user);
     res.cookie('access_token', token, {
       httpOnly: true
     });
-    res.status(200).json({ token });
+    res.status(200).send({
+      user: req.user,
+      token
+    });
+  },
+  userinfo: async (req, res) => {
+    const foundUser = await User.findById(req.user.id)
+    res.status(200).send(foundUser);
   }
 }

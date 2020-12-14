@@ -9,4 +9,9 @@ router.route('/signin')
     AuthController.signIn
   );
 
+router.route('/userinfo')
+  .get(passport.authenticate('googleToken', { session: false }),
+    AuthController.userinfo
+  );
+
 module.exports = router;
