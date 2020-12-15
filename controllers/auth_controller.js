@@ -4,10 +4,8 @@ const User = require('../models/user');
 const signToken = user => {
   return JWT.sign({
     iss: 'ThomasNJason',
-    sub: user.id,
-    iat: new Date().getTime(),
-    exp: new Date().setDate(new Date().getDate() + 1)
-  }, process.env.JWT_SECRET);
+    sub: user.googleId,
+  }, process.env.JWT_SECRET, { expiresIn: '1d' });
 }
 
 module.exports = {
@@ -25,5 +23,9 @@ module.exports = {
   userinfo: async (req, res) => {
     const foundUser = await User.findById(req.user.id)
     res.status(200).send(foundUser);
+  },
+  signout: async (req, res) => {
+    console.log('signOut called');
+    
   }
 }

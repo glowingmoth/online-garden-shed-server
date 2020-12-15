@@ -15,7 +15,7 @@ module.exports = {
     console.log('req.value.params:', req.value.params);
     const foundShed = await Shed.findById(req.value.params.shedId)
       .populate({ path: 'plantRecords', options: { sort: { createdAt: 'desc' } } })
-      .lean();
+      .populate('owner');
     if (foundShed) {
       res.status(200).send(foundShed);
     } else {
