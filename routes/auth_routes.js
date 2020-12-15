@@ -1,6 +1,7 @@
 const express = require('express');
 const passport = require('passport');
 const router = require('express-promise-router')();
+const { ensureAuthenticated } = require('../helpers/auth');
 
 const AuthController = require('../controllers/auth_controller');
 
@@ -10,8 +11,14 @@ router.route('/signin')
   );
 
 router.route('/userinfo')
-  .get(passport.authenticate('googleToken', { session: false }),
+  .get(passport.authenticate('jwt', { session: false }),
     AuthController.userinfo
   );
+
+router.route('/signout')
+  .get(passport.authenticate('jwt', { session: false }),
+    AuthController.signout
+  );
+
 
 module.exports = router;

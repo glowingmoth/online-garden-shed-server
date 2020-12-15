@@ -1,9 +1,38 @@
 const passport = require('passport');
 const GooglePlusTokenStrategy = require('passport-google-token').Strategy;
+const JwtStrategy = require('passport-jwt').Strategy;
 const User = require('../models/user');
 const Shed = require('../models/shed');
 
+const cookieExtractor = req => {
+  let token = null;
+  if (req && req.cookies) {
+    token = req.cookies["access_token"];
+    console.log('token:', token);
+  }
+  return token;
+}
+
 module.exports = passport => {
+  // for authorization
+  passport.use('jwt', new JwtStrategy({
+    jwtFromRequest: cookieExtractor,
+    secretOrKey: process.env.JWT_SECRET
+  }, async (payload, done) => {
+    try {
+      const foundUser = await User.findOne({ googleId: payload.sub });
+      if (foundUser) {
+        console.log('User found');
+        return done(null, foundUser);
+      } else {
+        return done(null, false);
+      }
+    } catch (err) {
+      return done(err, false);
+    }
+  }));
+
+  // for authentication
   passport.use('googleToken', new GooglePlusTokenStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -34,16 +63,7 @@ module.exports = passport => {
         return done(null, newUser);
       }
     } catch(error) {
-      done(error, false, error.message);
+      return done(error, false, error.message);
     }
   }));
-  passport.serializeUser((user, done) => {
-    console.log('serializeUser, user:', user);
-    done(null, user._id);
-  });
-  passport.deserializeUser((_id, done) => {
-    console.log('deserializeUser, id' + _id);
-    User.findById(_id)
-      .then(user => done(null, user));
-  });
 }

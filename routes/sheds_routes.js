@@ -1,11 +1,12 @@
 const express = require('express');
+const passport = require('passport');
 const router = require('express-promise-router')();
 const { validateParam, validateBody, schemas } = require('../helpers/route_helpers');
 
 const ShedsController = require('../controllers/sheds_controller');
 
 router.route('/')
-  .get(ShedsController.index);
+  .get(passport.authenticate('jwt', { session: false }),ShedsController.index);
 
 router.route('/:shedId')
   .get(validateParam(schemas.idSchema, 'shedId'),
